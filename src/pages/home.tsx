@@ -10,7 +10,6 @@ import {
 } from "../widgets";
 import Button from "../shared/Button/Button";
 
-// ✅ Описание типа одного чая
 interface TeaItem {
   name: string;
   description: string;
@@ -18,11 +17,9 @@ interface TeaItem {
 }
 
 export const Home = () => {
-  // ✅ Массив чаёв
   const [items, setItems] = useState<TeaItem[]>([]);
   const [isModalActive, setModalActive] = useState(false);
 
-  // 📦 Загрузка чаёв с сервера
   useEffect(() => {
     fetch("http://localhost:3001/api/teas")
       .then((res) => res.json())
@@ -30,26 +27,32 @@ export const Home = () => {
       .catch((err) => console.error("Ошибка загрузки чаёв:", err));
   }, []);
 
-  // ➕ Добавление нового чая
   function AddItemToList(itemData: FormData) {
     const name = itemData.get("name") as string;
     const description = itemData.get("description") as string;
     const price = itemData.get("price") as string;
 
-    const result: TeaItem = {
-      name,
-      description,
-      price
-    };
-
-    if (name || description || price) {
-      setItems((prev) => [result, ...prev]);
-    }
+    fetch("http://localhost:3001/api/teas", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ name, description, price })
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Ошибка при добавлении товара");
+        return res.json();
+      })
+      .then((newTea) => {
+        setItems((prev) => [newTea, ...prev]);
+      })
+      .catch((err) => {
+        console.error("Ошибка POST-запроса:", err);
+      });
   }
 
   return (
     <>
-      {/* Модальное окно */}
       <div
         className={`w-[100svw] h-[100svh] fixed flex justify-center items-center z-[1000] ${
           isModalActive ? "visible" : "invisible"
@@ -100,7 +103,6 @@ export const Home = () => {
         </div>
       </div>
 
-      {/* Страница */}
       <Header />
       <TeaList callback={setModalActive} data={items} />
       <BannerCatalog />
