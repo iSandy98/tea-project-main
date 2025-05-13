@@ -2,12 +2,14 @@
   "name": "tea-project",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
+  
   "scripts": {
-    "dev": "ts-node-dev --respawn src/index.ts",
-    "build": "vite build",
-    "preview": "vite preview",
-    "type-check": "tsc --noEmit"
+  "dev:server": "ts-node-dev --respawn src/index.ts",
+  "dev:client": "vite",
+  "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+  "build": "vite build",
+  "preview": "vite preview",
+  "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "cors": "^2.8.5",

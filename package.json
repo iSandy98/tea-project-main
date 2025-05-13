@@ -1,5 +1,9 @@
 {
   "devDependencies": {
-    "@types/cors": "^2.8.18"
+    "@types/cors": "^2.8.18",
+    "concurrently": "^9.1.2"
+  },
+  "dependencies": {
+    "react-helmet": "^6.1.0"
   }
 }

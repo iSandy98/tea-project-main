@@ -9,6 +9,7 @@ import {
   TeaList
 } from "../widgets";
 import Button from "../shared/Button/Button";
+import { Helmet } from "react-helmet";
 
 interface TeaItem {
   name: string;
@@ -53,6 +54,13 @@ export const Home = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Главная | Tea Shop</title>
+        <meta name="description" content="Добро пожаловать в интернет-магазин чая" />
+        <meta name="keywords" content="чай, магазин, зелёный чай, улун, интернет-магазин" />
+      </Helmet>
+
+      {/* Модальное окно */}
       <div
         className={`w-[100svw] h-[100svh] fixed flex justify-center items-center z-[1000] ${
           isModalActive ? "visible" : "invisible"
@@ -67,42 +75,22 @@ export const Home = () => {
           <form action={AddItemToList}>
             <label>
               Название:
-              <input
-                name="name"
-                type="text"
-                className="w-full focus-within:outline-none border-2 px-2 bg-transparent border-[#232323] rounded-md"
-              />
+              <input name="name" type="text" className="w-full border-2 px-2 bg-transparent border-[#232323] rounded-md" />
             </label>
-
             <label>
               Описание:
-              <input
-                name="description"
-                type="text"
-                className="w-full focus-within:outline-none border-2 px-2 bg-transparent border-[#232323] rounded-md"
-              />
+              <input name="description" type="text" className="w-full border-2 px-2 bg-transparent border-[#232323] rounded-md" />
             </label>
-
             <label>
               Цена:
-              <input
-                name="price"
-                type="text"
-                className="w-full focus-within:outline-none border-2 px-2 bg-transparent border-[#232323] rounded-md"
-              />
+              <input name="price" type="text" className="w-full border-2 px-2 bg-transparent border-[#232323] rounded-md" />
             </label>
-
-            <Button
-              type="submit"
-              className="mt-[25px]"
-              width="w-full"
-              height="h-[35px]"
-              text="Добавить предмет"
-            />
+            <Button type="submit" className="mt-[25px]" width="w-full" height="h-[35px]" text="Добавить предмет" />
           </form>
         </div>
       </div>
 
+      {/* Страница */}
       <Header />
       <TeaList callback={setModalActive} data={items} />
       <BannerCatalog />
